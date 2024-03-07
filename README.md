@@ -13,12 +13,12 @@ Jenkinsfile:
 
 **In order to use this pipeline, make sure you have installed the following tools on jenkins' executing agent:**
 
-1. Docker.
-2. Docker Compose.
-3. Java 17.
-4. Maven.
-5. NodeJS.
-6. Git.
+    1. Docker.
+    2. Docker Compose.
+    3. Java 17.
+    4. Maven.
+    5. NodeJS.
+    6. Git.
 
 **In order to configure this pipeline, do the following:**
 
