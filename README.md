@@ -27,7 +27,7 @@ Jenkinsfile:
 3. Then SCM `git`.
 4. Finally put this repo url and the master branch.
 
-![image](https://github.com/ingestevezaquino/devops-test-bravo/assets/74105278/1da2e37d-5b2e-4dff-ba3b-f6159b7a231d)
+![image](https://github.com/ingestevezaquino/devops-test-bravo/assets/74105278/e4b0c946-86e2-4027-8665-da163d948951)
 
 **In order to run this pipeline for a specific target environment, please adjust this environmental variable on pipeline:**
 
