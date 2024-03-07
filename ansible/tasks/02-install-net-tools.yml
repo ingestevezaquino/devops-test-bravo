@@ -1,0 +1,9 @@
+# Install ping, netstat and wget.
+
+- name: Install Network Utils.
+  ansible.builtin.dnf:
+    name:
+      - net-tools
+      - wget
+    state: latest
+    update_cache: yes

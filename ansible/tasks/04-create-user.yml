@@ -1,0 +1,9 @@
+# Add new user and make it able to perform root comands
+
+- name: Add new user
+  ansible.builtin.user:
+    name: '{{ NAME }}'
+    groups:
+      - wheel
+      - docker
+    shell: /bin/bash

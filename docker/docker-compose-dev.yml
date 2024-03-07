@@ -1,0 +1,19 @@
+version: '3'
+services:
+  helloworld-api-dev:
+    image: helloworld-api:dev
+    ports:
+      - '8081:8080'
+    networks:
+      - internal_dev
+  helloworld-dev:
+    image: helloworld:dev
+    ports:
+      - '8080:80'
+    volumes:
+      - ../nginx/conf.d:/etc/nginx/conf.d
+    networks:
+      - internal_dev
+networks:
+  internal_dev:
+    driver: bridge

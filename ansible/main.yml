@@ -1,0 +1,39 @@
+---
+- name: "Playbook that meets Bravo's DevOps Test requirements."
+  hosts: servers
+  gather_facts: false
+  vars:
+    - NEW_USER_NAME: devops_usr
+    - JENKINS_PORT: 9090
+  tasks:
+    - name: Include docker tasks.
+      ansible.builtin.include_tasks: ./tasks/01-install-docker.yml
+
+    - name: Include net-tools tasks.
+      ansible.builtin.include_tasks: ./tasks/02-install-net-tools.yml
+
+    - name: Include Chrony tasks.
+      ansible.builtin.include_tasks: ./tasks/03-configure-chrony.yml
+
+    - name: Include User tasks.
+      ansible.builtin.include_tasks: ./tasks/04-create-user.yml
+      vars:
+        - NAME: '{{ NEW_USER_NAME }}'
+
+    - name: Include Firewalld tasks.
+      ansible.builtin.include_tasks: ./tasks/05-open-firewall-ports.yml
+
+    # #######################################################################
+    # # THESE TASKS ARE OPTIONAL | THEY WERE NOT REQUIRED ON THE REQUIREMENTS
+    # #######################################################################
+
+    # - name: Include SELinux tasks.
+    #   ansible.builtin.include_tasks: ./tasks/06-open-selinux-ports.yml
+
+    # - name: Include Jenkins tasks.
+    #   ansible.builtin.include_tasks: ./tasks/07-install-jenkins.yml
+    #   vars:
+    #     - PORT: '{{ JENKINS_PORT }}'
+
+    # - name: Include Jenkins' software stack tasks.
+    #   ansible.builtin.include_tasks: ./tasks/08-install-software-on-jenkins-node.yml

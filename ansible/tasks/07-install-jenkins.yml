@@ -1,0 +1,56 @@
+# Install Jenkins on RHEL based systems.
+
+- name: Download Jenkins Repo.
+  ansible.builtin.get_url:
+    url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
+    dest: /etc/yum.repos.d/jenkins.repo
+    mode: '0644'
+
+- name: Import Repo Key.
+  ansible.builtin.command:
+    cmd: rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+
+- name: Install Dependencies.
+  ansible.builtin.dnf:
+    name:
+      - fontconfig
+      - java-17-openjdk
+    state: latest
+
+- name: Install Jenkins.
+  ansible.builtin.dnf:
+    name: jenkins
+    state: latest
+
+- name: Set Jenkins default port.
+  ansible.builtin.lineinfile:
+    path: /usr/lib/systemd/system/jenkins.service
+    regex: '^Environment="JENKINS_PORT=\d+"$'
+    line: Environment="JENKINS_PORT={{ PORT }}"
+    state: present
+
+- name: Reload Systemd Configuration.
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+
+- name: Start / Restart and Enable Jenkins Service.
+  ansible.builtin.service:
+    name: jenkins
+    state: restarted
+    enabled: true
+
+- name: Open Jenkins Port on Firewalld.
+  ansible.posix.firewalld:
+    port: '{{ PORT }}/tcp'
+    state: enabled
+    permanent: true
+    immediate: true
+
+- name: Get Jenkins's Admin Initial Password.
+  ansible.builtin.command:
+    cmd: cat /var/lib/jenkins/secrets/initialAdminPassword
+  register: admin_pwd
+
+- name: Print Jenkins' Admin Initial Password.
+  ansible.builtin.debug:
+    var: admin_pwd.stdout

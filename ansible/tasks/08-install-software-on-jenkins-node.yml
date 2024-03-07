@@ -1,0 +1,22 @@
+# Install necesary software on Jenkins node (Git, NPM, Java, Mvn, etc).
+
+- name: Enable nodejs module on OL.
+  ansible.builtin.command:
+    cmd: dnf module enable -y nodejs:20
+
+- name: Installing required software stack.
+  ansible.builtin.dnf:
+    name:
+      - git
+      - nodejs
+      - docker-ce
+      - java-17-openjdk
+      - java-17-openjdk-devel
+      - maven
+    state: latest
+
+- name: Include jenkins in the docker group.
+  ansible.builtin.user:
+    name: jenkins
+    groups: docker
+    append: true

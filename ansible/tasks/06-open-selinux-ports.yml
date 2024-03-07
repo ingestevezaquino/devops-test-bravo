@@ -1,0 +1,15 @@
+# Configure SELinux (Open HTTP Ports) - OL8
+
+# - name: Enable SELinux (Enforcing)
+#   ansible.posix.selinux:
+#     policy: targeted
+#     state: enforcing
+
+- name: Open HTTP Ports on SELinux
+  community.general.seport:
+    ports:
+      - 443
+      - 8080-8081
+    proto: tcp
+    setype: http_port_t
+    state: present

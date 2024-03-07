@@ -1,0 +1,20 @@
+FROM node:21-alpine3.19 AS build
+
+WORKDIR /app
+ARG BUILD_ENV=default
+ENV ENVIRONMENT=${BUILD_ENV}
+
+# Copy dependency pacakge.json file.
+ADD package.json .
+
+# Install required dependencies.
+RUN npm install
+
+# Copy all project files to the container.
+ADD . .
+
+# Build project for the desired environment.
+RUN npm run build:${BUILD_ENV};
+
+FROM nginx:1.25.4-alpine as final
+COPY --from=build --chown=nginx:nginx /app/dist /usr/share/nginx/html

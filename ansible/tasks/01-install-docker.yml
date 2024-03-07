@@ -1,0 +1,32 @@
+# Install Docker and Compose
+
+- name: Add Docker Repo.
+  ansible.builtin.yum_repository:
+    name: docker-ce-stable
+    description: Docker CE Stable - $basearch
+    file: docker-ce
+    baseurl: https://download.docker.com/linux/centos/$releasever/$basearch/stable
+    gpgcheck: true
+    gpgkey: https://download.docker.com/linux/centos/gpg
+
+- name: Remove runc if installed.
+  ansible.builtin.dnf:
+    name: runc
+    state: absent
+
+- name: Install Docker Engine, Docker CLI, Container Runtime, Compose and so on.
+  ansible.builtin.dnf:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+    state: latest
+    update_cache: yes
+
+- name: Start and enable Docker service.
+  ansible.builtin.service:
+    name: docker
+    state: started
+    enabled: true

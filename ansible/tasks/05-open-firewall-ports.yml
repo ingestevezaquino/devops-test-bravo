@@ -1,0 +1,27 @@
+# Configure firewalld
+
+- name: Make sure firewalld is installed
+  ansible.builtin.dnf:
+    name: firewalld
+    state: present
+    update_cache: yes
+
+- name: Make sure firewalld is running
+  ansible.builtin.service:
+    name: firewalld
+    state: started
+    enabled: true
+
+- name: Open 443 port on firewalld permanently and reload it.
+  ansible.posix.firewalld:
+    port: 443/tcp
+    state: enabled
+    permanent: true
+    immediate: true
+
+- name: Open 8080-8081 ports on firewalld permanently and reload it.
+  ansible.posix.firewalld:
+    port: 8080-8081/tcp
+    state: enabled
+    permanent: true
+    immediate: true

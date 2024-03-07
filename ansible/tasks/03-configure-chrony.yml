@@ -1,0 +1,19 @@
+# Configure Chrony to use non default NTP server.
+
+- name: Make sure chronyd is installed.
+  ansible.builtin.dnf:
+    name: chrony
+    state: present
+    update_cache: yes
+
+- name: Replace default pool NTP servers on /etc/chrony.conf.
+  ansible.builtin.lineinfile:
+    path: /etc/chrony.conf
+    regexp: '^pool'
+    line: 'server 0.north-america.pool.ntp.org iburst'
+    state: present
+
+- name: Restart Chronyd.
+  ansible.builtin.service:
+    name: chronyd
+    state: restarted

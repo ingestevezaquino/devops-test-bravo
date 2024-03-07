@@ -1,0 +1,19 @@
+version: '3'
+services:
+  helloworld-api-stg:
+    image: helloworld-api:stg
+    ports:
+      - '8081:8080'
+    networks:
+      - internal_stg
+  helloworld-stg:
+    image: helloworld:stg
+    ports:
+      - '8080:80'
+    volumes:
+      - ../nginx/conf.d:/etc/nginx/conf.d
+    networks:
+      - internal_stg
+networks:
+  internal_stg:
+    driver: bridge
