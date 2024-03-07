@@ -14,6 +14,10 @@ to specify a **remote user which has root permissions** and that is able log in 
 
 Once you have configured requirements corretly, you can run the playbook with: `ansible-playbook main.yml` command.
 
+You can also modify playbook variables to custom the username of the new user or the port in which Jenkins will start (if executing the corresponding tasks).
+
+![image](https://github.com/ingestevezaquino/devops-test-bravo/assets/74105278/bca9bd0f-5c6f-44aa-9310-22461c0074ac)
+
 ---
 
 In this playbook you have additional tasks which are commented, but you could execute them if you'd need to.
